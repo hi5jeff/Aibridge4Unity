@@ -1,0 +1,14 @@
+{
+  "entries": [
+    { "key": "bridge.ready", "value": "Bridge ready. Drop request files into the channel 'in' folder; read replies from 'out'." },
+    { "key": "ping.ok", "value": "pong" },
+    { "key": "ref.title", "value": "Reference a target to the AI" },
+    { "key": "ref.help", "value": "Select object(s) in the Hierarchy/Scene, optionally add a note, then Pin. The AI reads it from .aibridge/selection.json." },
+    { "key": "ref.selectionCount", "value": "Current selection: {0} object(s)" },
+    { "key": "ref.assetCount", "value": "Selected assets: {0}" },
+    { "key": "ref.note", "value": "Note (optional)" },
+    { "key": "ref.pin", "value": "Pin selection -> AI" },
+    { "key": "ref.pickStart", "value": "Pin a point (click in Scene)" },
+    { "key": "ref.pickActive", "value": "Click in Scene view... (Esc to cancel)" }
+  ]
+}

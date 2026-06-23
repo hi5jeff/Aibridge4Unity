@@ -1,0 +1,14 @@
+{
+  "entries": [
+    { "key": "bridge.ready", "value": "桥已就绪。把请求文件放进通道的 in 目录,从 out 目录读取回复。" },
+    { "key": "ping.ok", "value": "pong" },
+    { "key": "ref.title", "value": "把目标引用给 AI" },
+    { "key": "ref.help", "value": "在 Hierarchy/Scene 里选中对象,可加备注,然后点钉住。AI 从 .aibridge/selection.json 读取。" },
+    { "key": "ref.selectionCount", "value": "当前选择:{0} 个对象" },
+    { "key": "ref.assetCount", "value": "已选资源:{0}" },
+    { "key": "ref.note", "value": "备注(可选)" },
+    { "key": "ref.pin", "value": "钉住选择 -> AI" },
+    { "key": "ref.pickStart", "value": "钉一个位置(在 Scene 里点击)" },
+    { "key": "ref.pickActive", "value": "在 Scene 视图里点击...(Esc 取消)" }
+  ]
+}

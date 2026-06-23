@@ -1,0 +1,18 @@
+{
+  "name": "com.aibridge.unity",
+  "displayName": "AI Bridge for Unity",
+  "version": "0.1.0",
+  "unity": "6000.0",
+  "description": "Gives AI agents precise eyes and hands into the Unity presentation layer: read scene/UI state as exact data, capture annotated screenshots, and wire references programmatically. Communicates over a simple file channel — no MCP, no server, no open ports.",
+  "keywords": [
+    "ai",
+    "editor",
+    "automation",
+    "tooling",
+    "agent"
+  ],
+  "author": {
+    "name": "unity_test"
+  },
+  "type": "tool"
+}
