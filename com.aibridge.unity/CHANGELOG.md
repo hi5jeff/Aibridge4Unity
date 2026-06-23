@@ -3,6 +3,13 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.16.0] — see the UI
+
+### Added
+- `screenshot.gameview`: captures the **actual Game View** (reading its internal render texture), so it
+  includes ScreenSpaceOverlay UI that a camera render misses. Focuses the Game tab to force a render.
+  Technique adapted from Unity-MCP (Apache-2.0).
+
 ## [0.15.0] — reliable console
 
 ### Added
