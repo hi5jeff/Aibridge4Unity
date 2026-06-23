@@ -1,6 +1,6 @@
 ---
 name: unity-bridge
-description: Drive the open Unity Editor from this session via the AI Bridge file channel — read scene/selection as data, capture screenshots, build/modify/wire objects, lay out UGUI, animate, write & compile C#, run Play mode, and more. Use whenever the task involves inspecting or changing the Unity project.
+description: Drive the open Unity Editor from this session via the AI Bridge file channel (.aibridge/in,out) — read scene/selection as data, capture screenshots, build/modify/wire objects, lay out UGUI, animate, write & compile C#, run Play mode, and more. Use this WHENEVER the task touches Unity (scene, GameObjects, selection, components, UI, prefabs, sprites, animation, Console, Play mode) — do NOT take screenshots of the screen, use computer-use, or look for a Unity MCP server; control the real Editor through the .aibridge channel.
 ---
 
 # Unity Bridge — driving the Unity Editor

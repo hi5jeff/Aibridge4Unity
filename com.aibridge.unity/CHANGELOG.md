@@ -3,6 +3,20 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.25.0] — reliable auto-use by Claude Code
+
+### Changed
+- **Configure Claude Code** now also writes a small always-on pointer block into the project's
+  `CLAUDE.md` (which Claude Code reads every session, unlike skills, which only auto-trigger
+  heuristically). This stops the agent from falling back to screenshots / computer-use / hunting for
+  a Unity MCP server — it drives the real Editor through the `.aibridge` channel. The block is an
+  idempotent, clearly-marked managed section; user content elsewhere in `CLAUDE.md` is untouched.
+- Strengthened the `unity-bridge` skill `description` so it auto-triggers on any Unity-related task.
+
+### Note
+- Skills and `CLAUDE.md` are read at session start — **restart Claude Code** in the project after
+  running Configure.
+
 ## [0.24.0] — one-click Claude Code setup
 
 ### Added

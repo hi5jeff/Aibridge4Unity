@@ -51,10 +51,12 @@ https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity
 Open your project — you'll see `[AIBridge] Bridge ready …` in the Console and a **Tools ▸ AI Bridge** menu.
 
 **2. Configure your AI agent — one click.** In Unity: **Tools ▸ AI Bridge ▸ Configure Claude Code**.
-This installs the `unity-bridge` skill into your project at `.claude/skills/unity-bridge/SKILL.md`, so
-Claude Code knows how to drive the bridge.
+This installs the `unity-bridge` skill at `.claude/skills/unity-bridge/SKILL.md` **and** adds a short
+always-on pointer to your project's `CLAUDE.md`, so Claude Code reliably drives Unity through the
+bridge instead of taking screenshots or hunting for an MCP server.
 
-That's it. Point Claude Code at the project and just ask.
+Then **restart Claude Code** in the project (skills and `CLAUDE.md` are read at session start). Now
+just ask.
 
 ## Use it — examples
 

@@ -18,7 +18,9 @@ automatically at `Packages/com.aibridge.unity/`. To reuse it in another project,
 folder into that project's `Packages/`, or reference it by git URL once published.
 
 Then run **Tools ▸ AI Bridge ▸ Configure Claude Code** to install the bundled `unity-bridge` skill
-into `<project>/.claude/skills/`, so your local AI agent knows the commands.
+into `<project>/.claude/skills/` and add an always-on pointer to the project's `CLAUDE.md`, so your
+local AI agent reliably drives Unity through the `.aibridge` channel. Restart the agent afterwards
+(skills and `CLAUDE.md` are read at session start).
 
 ## How it works
 
