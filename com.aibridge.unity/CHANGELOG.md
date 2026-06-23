@@ -3,6 +3,13 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.23.0] — scene management
+
+### Added
+- `scene.create` / `scene.open` / `scene.save` / `scene.list` / `scene.close`: full multi-scene support
+  (single & additive). Single-mode create/open is guarded against discarding unsaved changes unless
+  `force` is passed.
+
 ## [0.22.0] — particles
 
 ### Added

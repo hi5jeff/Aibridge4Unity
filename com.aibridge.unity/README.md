@@ -73,6 +73,11 @@ On failure, `ok` is `false` and `error` holds the message.
 | `animation.create` | Keyframe animation: build clip + AnimatorController + attach Animator (plays in Play mode) | `path`, `name`, `loop`, `frameRate`, `channels[]` |
 | `refresh` | Import new/changed files and recompile scripts (no need to focus Unity) | `save`, `recompile` |
 | `editor.play` | Control Play mode (enter/exit/toggle/pause/resume/step) — run the game and observe it | `action` |
+| `scene.create` | Create + save a new scene (single or additive) | `path`, `empty`, `additive`, `force` |
+| `scene.open` | Open an existing scene (single replaces; additive adds) | `path`, `additive`, `force` |
+| `scene.save` | Save the active scene (or save-as to a new path) | `path` |
+| `scene.list` | List open scenes + all scenes in the project | — |
+| `scene.close` | Unload an additively-loaded scene | `path` |
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
 | `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
 | `asset.reimport` | Force-reimport an asset/folder (e.g. so an importer like spine-unity regenerates derived assets) | `path` |
