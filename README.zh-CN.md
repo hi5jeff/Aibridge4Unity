@@ -1,6 +1,6 @@
 # AI Bridge for Unity
 
-[English](README.md) | **简体中文**
+[English](README.md) | **简体中文** | [한국어](README.ko.md)
 
 **用对话的方式做你的 Unity 游戏。** AI Bridge 把本地 AI 助手（比如
 [Claude Code](https://claude.com/claude-code)）连到你正打开的 Unity 编辑器——它能看你的场景、

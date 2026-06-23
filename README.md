@@ -1,6 +1,6 @@
 # AI Bridge for Unity
 
-**English** | [简体中文](README.zh-CN.md)
+**English** | [简体中文](README.zh-CN.md) | [한국어](README.ko.md)
 
 **Build your Unity game by talking to an AI.** AI Bridge connects a local AI assistant (like
 [Claude Code](https://claude.com/claude-code)) to your open Unity Editor — so it can see your scene,
