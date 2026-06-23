@@ -3,6 +3,13 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.17.0] — prefabs
+
+### Added
+- `prefab.create`: save a scene GameObject as a reusable prefab asset (creating folders as needed) and
+  connect the scene object to it.
+- `prefab.instantiate`: instantiate a prefab into the active scene (optional name / parent / position).
+
 ## [0.16.0] — see the UI
 
 ### Added
