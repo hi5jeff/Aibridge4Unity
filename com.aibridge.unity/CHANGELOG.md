@@ -3,6 +3,13 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.25.1] — docs: manual skill kick-start
+
+### Changed
+- Install docs note the reliable fallback: if the agent doesn't pick up the skill on its own, tell it
+  once *"Read `.claude/skills/unity-bridge/SKILL.md` and use it to drive Unity."* (works in Claude
+  Desktop and Claude Code).
+
 ## [0.25.0] — reliable auto-use by Claude Code
 
 ### Changed

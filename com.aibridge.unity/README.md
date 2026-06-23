@@ -22,6 +22,10 @@ into `<project>/.claude/skills/` and add an always-on pointer to the project's `
 local AI agent reliably drives Unity through the `.aibridge` channel. Restart the agent afterwards
 (skills and `CLAUDE.md` are read at session start).
 
+If the agent doesn't pick it up on its own, just tell it once: *"Read
+`.claude/skills/unity-bridge/SKILL.md` and use it to drive Unity."* — it learns the channel from that
+and works for the rest of the session.
+
 ## How it works
 
 ```

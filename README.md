@@ -58,6 +58,11 @@ bridge instead of taking screenshots or hunting for an MCP server.
 Then **restart Claude Code** in the project (skills and `CLAUDE.md` are read at session start). Now
 just ask.
 
+> **If your agent doesn't pick it up automatically**, just tell it once:
+> *"Read `.claude/skills/unity-bridge/SKILL.md` and use it to drive Unity."*
+> It learns the file channel from that and works for the rest of the session. (Works in Claude
+> Desktop and Claude Code alike.)
+
 ## Use it — examples
 
 Talk to your AI agent normally; it drives Unity for you. For example:
