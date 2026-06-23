@@ -1,153 +1,87 @@
 # AI Bridge for Unity
 
-**Let a local AI agent drive your Unity Editor — over a plain folder. No MCP, no server, no ports.**
+**Build your Unity game by talking to an AI.** AI Bridge connects a local AI assistant (like
+[Claude Code](https://claude.com/claude-code)) to your open Unity Editor — so it can see your scene,
+create and edit objects, lay out UI, use your art, make animations, write game logic, and even run the
+game, all from a chat. No server, no ports, no MCP setup — just install a package.
 
-AI Bridge gives an AI assistant (Claude Code, or any local agent that can read/write files)
-precise **eyes and hands** inside the Unity Editor: read the scene and the user's selection as
-structured data, capture annotated screenshots, create/modify/wire objects, build grids, and author
-keyframe animations — all by exchanging small JSON files in a watched folder.
+> Status: early and evolving, but already capable. Made for **2D mobile** workflows on **Unity 6**.
 
-> Status: **early / evolving (0.11.x).** 14 commands. Built and validated live while playing a full
-> game of Gomoku on the Unity scene and authoring animations. APIs may still change.
+## What it can do
 
----
+- 👀 **See** your scene as data *and* as real screenshots — including the UI and the game while it runs.
+- 🧱 **Build** GameObjects, UGUI (canvas/buttons/text), grids, and prefabs.
+- 🎨 **Use your art** — import images as sprites and put them on objects.
+- 🎞️ **Animate** — author keyframe animations (move, scale, color) in one step.
+- 🧠 **Write game logic** — it writes C#, compiles it itself, and reads its own errors.
+- ▶️ **Run the game** — enter Play mode and watch it.
+- 👉 **Understand "this / here"** — you click an object or a spot in Unity, and the AI knows exactly what you mean.
 
-## Why another one?
+## Requirements
 
-Most AI-to-Unity bridges need a Unity package **+ a background server process + MCP client config**
-(three moving parts, a port, a protocol). AI Bridge needs **two things and zero processes**:
-
-| | Typical MCP bridge | **AI Bridge** |
-|---|---|---|
-| Install | Unity package + Python server + MCP config | Unity package + a skill for your local agent |
-| Running processes | background server + open port | **none** |
-| Transport | SignalR / HTTP | **a watched folder** |
-
-If your agent can read and write files in your project, it can drive Unity.
+- **Unity 6** (6000.x).
+- A **local AI agent** that can read/write files in your project — e.g. **Claude Code**.
+  It must run on the same machine as Unity (the two talk through a folder in your project).
 
 ## How it works
 
 ```
-Local AI agent (e.g. Claude Code)         ← reads/writes the channel, no Unity knowledge needed
-        │  writes  <project>/.aibridge/in/<id>.json
-        │  reads   <project>/.aibridge/out/<id>.json
+You + a local AI agent (e.g. Claude Code)
+        │  the agent reads/writes a folder in your project (.aibridge)
         ▼
-AI Bridge package (this repo)             ← runs inside the Unity Editor (InitializeOnLoad)
-        • polls the channel on the main thread
-        • routes each request to a handler, runs the Unity API, writes the reply
+AI Bridge package  ──  runs inside the Unity Editor, executes the requests
         ▼
-Unity Editor (the real, open project)
+Your Unity project (the real, open Editor)
 ```
 
-There are **two components**:
-
-1. **The Unity package** (`com.aibridge.unity`) — you install this into your Unity project. It
-   auto-starts when the Editor loads.
-2. **A local AI agent** — *not* a Unity plugin. It’s whatever agent runs on your machine with access
-   to the project folder (e.g. Claude Code). It learns the channel protocol from the bundled skill.
+Two pieces: **(1)** this Unity package, installed in your project (auto-starts with the Editor), and
+**(2)** your local AI agent, which learns how to drive it from the bundled skill. No background process
+or network — the bridge just watches a folder.
 
 ## Install
 
-In Unity: **Window → Package Manager → + → Add package from git URL**, paste:
+**1. Add the Unity package.** In Unity: **Window → Package Manager → + → Add package from git URL**, paste:
 
 ```text
 https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity
 ```
 
-Requires **Unity 6 (6000.x)**. Open your project — the bridge starts automatically; you’ll see a
-`[AIBridge] Bridge ready …` line in the Console and a **Tools ▸ AI Bridge** menu.
+Open your project — you'll see `[AIBridge] Bridge ready …` in the Console and a **Tools ▸ AI Bridge** menu.
 
-### Set up the AI side
-
-Point your local agent at the project and give it the channel protocol. For **Claude Code**, copy the
-bundled skill into your project so the agent can use it:
+**2. Teach your AI agent.** Give your local agent the bundled skill so it knows the commands. For
+**Claude Code**, copy:
 
 ```text
-com.aibridge.unity/Documentation~/AI-USAGE.md   →   .claude/skills/unity-bridge/SKILL.md
+com.aibridge.unity/Documentation~/AI-USAGE.md  →  <your project>/.claude/skills/unity-bridge/SKILL.md
 ```
 
-(add the YAML frontmatter shown at the top of that file). Then just ask your agent to inspect or
-change the scene — it will drive Unity through `.aibridge/`.
+That's it. Now just ask.
 
-## Quickstart (verify the loop)
+## Use it — examples
 
-With the Editor open, from the project root:
+Talk to your AI agent normally; it drives Unity for you. For example:
 
-```bash
-cd .aibridge
-printf '{ "id":"1", "command":"ping" }' > in/1.json
-sleep 2 && cat out/1.json
-# → { "id":"1", "command":"ping", "ok":true, "error":null,
-#     "result":{ "message":"pong", "unityVersion":"6000.x" } }
-```
-
-## Channel protocol
-
-- **Send:** write `in/<id>.json` — `{ "id": "<unique>", "command": "<name>", ...fields }` (fields flat).
-- **Receive:** read `out/<id>.json` — `{ "id", "command", "ok", "error", "result" }`.
-- The bridge polls ~2×/sec. Use a unique `id` per request.
-
-## Commands (0.11.x)
-
-| Command | Purpose |
+| You say… | The AI does… |
 |---|---|
-| `ping` | Liveness / loop check |
-| `scene.dump` | Active scene as data: paths, world positions, UI anchors, components |
-| `selection.get` | The user's current Editor selection (objects + Project assets) |
-| `reference.wire` | Set an object-reference field (auto-link), replacing Inspector drag-drop |
-| `gameobject.create` | Create a GameObject (empty or primitive), parented, positioned, with components |
-| `gameobject.duplicate` | Clone a GameObject (with components) |
-| `gameobject.delete` | Delete a GameObject (Undo-able) |
-| `object.modify` | Move / rotate / scale / rename / (de)activate via an ops list |
-| `component.add` | Add a component by type name |
-| `component.set` | Set value fields (numbers, bools, strings, colors, vectors, enums) |
-| `grid.create` | Build an N×N grid of square tiles in one call |
-| `screenshot.annotated` | Offscreen camera render + bounding boxes + per-object screen rects |
-| `console.get` | Recent Console logs (script/runtime) for debugging |
-| `animation.create` | Keyframe animation: build clip + AnimatorController + attach Animator |
+| *"What's in the scene?"* | reads every object's position, components and UI anchors |
+| *"Show me the game"* | captures the real Game View (UI included) and looks at it |
+| *"Add a blue **Play** button in the center"* | creates a Canvas + button + label, anchored |
+| *"Use `hero.png` as the player's sprite"* | imports the image as a sprite and assigns it |
+| *"Make the coin bob up and down"* | builds a looping keyframe animation and attaches it |
+| *"Turn this into a prefab and spawn 5 of them"* | saves a prefab and instantiates copies |
+| *"Add a `PlayerHealth` script and put it on the player"* | writes the C#, compiles it, attaches it |
+| *"Move **this** here"* (you click an object, then a spot) | reads your selection/point and moves it |
+| *"Run it"* | enters Play mode so you can watch the game |
 
-Full field reference: [`com.aibridge.unity/README.md`](com.aibridge.unity/README.md).
+### Pointing instead of describing
 
-## The user as a pointer
-
-The conversation with the AI stays in your normal chat window — this package does **not** rebuild
-chat inside Unity. Instead it lets the user *point*:
-
-- **Select** object(s) or Project assets → the AI calls `selection.get`.
-- **Pin** a target (or click a point in the Scene view) via **Tools ▸ AI Bridge ▸ AI Reference** →
-  writes `.aibridge/selection.json`, which the AI reads to resolve “this / here”.
-
-So the user communicates with the AI by **talking in chat + pointing in Unity** — no more describing
-coordinates ten times.
+Open **Tools ▸ AI Bridge ▸ AI Reference** to *point*: select an object (or click a point in the Scene
+view) and pin it — the AI reads exactly what you meant, so you never describe coordinates ten times.
 
 ## Configuration
 
-All tunable parameters live on a `BridgeConfig` ScriptableObject (nothing hardcoded). Create one via
-**Tools ▸ AI Bridge ▸ Create Config Asset**, or run on sensible defaults: channel folder, poll
-interval, language (`en` / `zh-CN`), enable switch.
-
-## Design principles
-
-- **No hardcoded parameters** — all in `BridgeConfig`.
-- **No hardcoded strings** — UI text lives in `Localization/<lang>.json`; code uses keys.
-- **Modular** — one capability = one `ICommandHandler` in one file, auto-discovered. Adding a tool
-  never edits a central switch.
-- **Pluggable transport** — `ITransport` abstracts the channel; a file folder today, HTTP/pipe later
-  (e.g. to support a remote agent) without touching handlers.
-
-## Roadmap
-
-- `refresh` — trigger recompile / asset refresh from the bridge and report editor busy-state, so the
-  AI no longer needs the user to focus Unity.
-- Script authoring loop (write C# → compile → read errors).
-- Scene management (new / open / save), prefabs, Play-mode control, test running.
-
-## Attribution
-
-- The `animation.create` approach (`AnimationClip` + `SetCurve`) is adapted from
-  [Unity-AI-Animation](https://github.com/IvanMurzak/Unity-AI-Animation) by Ivan Murzak (Apache-2.0).
-- Capability ideas surveyed from [Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) and
-  [MCP for Unity](https://github.com/CoplayDev/unity-mcp).
+Everything tunable lives on a `BridgeConfig` asset (channel folder, language `en`/`zh-CN`, on/off…).
+Create one via **Tools ▸ AI Bridge ▸ Create Config Asset**, or just use the defaults.
 
 ## License
 
