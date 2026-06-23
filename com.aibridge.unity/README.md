@@ -71,6 +71,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `grid.create` | Build an N×N grid of square cell tiles in one call (`<prefix>_x_y`) | `size`, `cellSize`, `gap`, `color`, `parentName`, `namePrefix`, `sortingOrder`, `z` |
 | `animation.create` | Keyframe animation: build clip + AnimatorController + attach Animator (plays in Play mode) | `path`, `name`, `loop`, `frameRate`, `channels[]` |
 | `refresh` | Import new/changed files and recompile scripts (no need to focus Unity) | `save`, `recompile` |
+| `editor.play` | Control Play mode (enter/exit/toggle/pause/resume/step) — run the game and observe it | `action` |
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
 | `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
 | `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |

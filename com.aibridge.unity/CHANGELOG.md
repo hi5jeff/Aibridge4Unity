@@ -3,6 +3,13 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.18.0] — run the game
+
+### Added
+- `editor.play`: enter / exit / toggle / pause / resume / step Play mode. The bridge keeps responding
+  in Play mode, so the AI can run the game and capture it with `screenshot.gameview`. Transitions are
+  async — poll `status` for `isPlaying`.
+
 ## [0.17.0] — prefabs
 
 ### Added
