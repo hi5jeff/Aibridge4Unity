@@ -64,6 +64,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `screenshot.gameview` | Capture the real Game View (includes ScreenSpaceOverlay UI) — focuses the Game tab | `max` |
 | `console.get` | Recent Console logs (script/runtime) for debugging | `maxEntries`, `logTypeFilter`, `lastMinutes`, `includeStackTrace` |
 | `console.read` | The Editor's actual Console (errors/warnings) — survives domain reloads (compile diagnostics) | `max`, `typeFilter` |
+| `console.clear` | Clear the Console (and the log buffer) — wipe stale errors before an operation | — |
 | `component.set` | Set value fields (numbers, bools, strings, colors, vectors, enums) via an ops list | `path`, `component`, `componentIndex`, `ops[]` |
 | `gameobject.duplicate` | Clone a GameObject (with components); optional rename/reposition | `path`, `name`, `setPosition`, `position` |
 | `prefab.create` | Save a scene GameObject as a reusable prefab asset (and connect it) | `path`, `assetPath` |

@@ -3,6 +3,12 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.20.0] — clear console
+
+### Added
+- `console.clear`: clears the Editor Console and the local log buffer (wipe stale errors before an
+  operation so the next `console.read`/`console.get` is clean).
+
 ## [0.19.0] — reimport + Spine
 
 ### Added
