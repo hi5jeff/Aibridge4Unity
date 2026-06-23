@@ -3,6 +3,15 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.12.0] — self-compile
+
+### Added
+- `refresh`: triggers `AssetDatabase.Refresh` (imports new/changed files and recompiles changed
+  scripts) and optionally a full recompile — so the AI can compile its own script edits without the
+  user focusing Unity.
+- `status`: editor busy-state (`isCompiling`/`isUpdating`/`isPlaying`/`isPaused`) plus the last
+  compile's `compileMessages` (errors/warnings via `CompilationPipeline`). Poll after `refresh`.
+
 ## [0.11.0] — animation
 
 ### Added
