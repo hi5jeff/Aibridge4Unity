@@ -68,6 +68,8 @@ On failure, `ok` is `false` and `error` holds the message.
 | `animation.create` | Keyframe animation: build clip + AnimatorController + attach Animator (plays in Play mode) | `path`, `name`, `loop`, `frameRate`, `channels[]` |
 | `refresh` | Import new/changed files and recompile scripts (no need to focus Unity) | `save`, `recompile` |
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
+| `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
+| `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |
 
 ### `object.modify`
 

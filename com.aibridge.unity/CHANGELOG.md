@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.13.0] — art / sprites
+
+### Added
+- `asset.find`: find project assets by Unity search filter (e.g. `t:Sprite`, `t:Prefab`) — so the AI
+  can discover available art before using it.
+- `sprite.set`: assign a sprite (by asset path) to a SpriteRenderer or UI Image (via `m_Sprite`, no UI
+  dependency). Auto-switches a texture's import type to Sprite and reimports if needed.
+
 ## [0.12.0] — self-compile
 
 ### Added
