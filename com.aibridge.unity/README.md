@@ -70,6 +70,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
 | `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
 | `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |
+| `ui.create` | Turnkey UGUI: image / text / button (auto Canvas + EventSystem, anchor presets) | `kind`, `name`, `parentPath`, `anchor`, `x/y/width/height`, `text`, `fontSize`, `color`, `sprite` |
 
 ### `object.modify`
 

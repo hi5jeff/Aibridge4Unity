@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.14.0] — UGUI builder
+
+### Added
+- `ui.create`: turnkey UGUI — create an `image` / `text` / `button` (or just ensure a `canvas`).
+  Auto-creates a portrait-friendly Canvas (ScreenSpaceOverlay + CanvasScaler) and an EventSystem
+  (with the new Input System UI module when present), positions via anchor presets, and builds a
+  button as Image + Button + child Text.
+
 ## [0.13.0] — art / sprites
 
 ### Added
