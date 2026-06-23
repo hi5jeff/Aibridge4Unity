@@ -3,6 +3,12 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.22.0] — particles
+
+### Added
+- `particle.create`: create a ParticleSystem from a preset (burst / explosion / stream / sparkle) with a
+  2D-friendly Sprites/Default material, color, size, lifetime, and count. Plays in Play mode.
+
 ## [0.21.0] — audio
 
 ### Added

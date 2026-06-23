@@ -78,6 +78,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `asset.reimport` | Force-reimport an asset/folder (e.g. so an importer like spine-unity regenerates derived assets) | `path` |
 | `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |
 | `audio.add` | Add/configure an AudioSource on a GameObject and assign an AudioClip | `path`, `clip`, `loop`, `volume`, `playOnAwake`, `spatialBlend` |
+| `particle.create` | Create a ParticleSystem from a preset (burst/explosion/stream/sparkle), 2D-friendly | `name`, `parentPath`, `position`, `preset`, `color`, `size`, `lifetime`, `count` |
 | `ui.create` | Turnkey UGUI: image / text / button (auto Canvas + EventSystem, anchor presets) | `kind`, `name`, `parentPath`, `anchor`, `x/y/width/height`, `text`, `fontSize`, `color`, `sprite` |
 
 ### `object.modify`
