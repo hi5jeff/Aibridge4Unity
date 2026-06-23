@@ -141,12 +141,12 @@ namespace AIBridge.Editor.Handlers
 
         Canvas EnsureCanvas(Request req)
         {
-            var canvas = Object.FindFirstObjectByType<Canvas>();
-            if (canvas != null)
-                return canvas;
+            var existing = Object.FindObjectsByType<Canvas>(FindObjectsInactive.Include);
+            if (existing.Length > 0)
+                return existing[0];
 
             var go = new GameObject("Canvas");
-            canvas = go.AddComponent<Canvas>();
+            var canvas = go.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             var scaler = go.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -159,7 +159,7 @@ namespace AIBridge.Editor.Handlers
 
         static void EnsureEventSystem()
         {
-            if (Object.FindFirstObjectByType<EventSystem>() != null)
+            if (Object.FindObjectsByType<EventSystem>(FindObjectsInactive.Include).Length > 0)
                 return;
 
             var go = new GameObject("EventSystem");

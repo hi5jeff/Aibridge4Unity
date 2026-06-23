@@ -3,6 +3,16 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.15.0] — reliable console
+
+### Added
+- `console.read`: reads the Editor's actual Console window (via internal `LogEntries`), surviving domain
+  reloads — so compile errors/warnings are reliably readable after a `refresh`, unlike the callback
+  buffer which resets on reload.
+
+### Fixed
+- `ui.create`: replaced the obsolete `FindFirstObjectByType` calls (Unity 6000.5) with `FindObjectsByType`.
+
 ## [0.14.0] — UGUI builder
 
 ### Added

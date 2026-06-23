@@ -62,6 +62,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `object.modify` | Move / rotate / scale / rename / (de)activate an existing object via an ops list | `path`, `ops[]` |
 | `screenshot.annotated` | Offscreen render of the camera with bounding boxes + per-object screen rects | `width`, `height`, `annotate`, `maxLabels` |
 | `console.get` | Recent Console logs (script/runtime) for debugging | `maxEntries`, `logTypeFilter`, `lastMinutes`, `includeStackTrace` |
+| `console.read` | The Editor's actual Console (errors/warnings) — survives domain reloads (compile diagnostics) | `max`, `typeFilter` |
 | `component.set` | Set value fields (numbers, bools, strings, colors, vectors, enums) via an ops list | `path`, `component`, `componentIndex`, `ops[]` |
 | `gameobject.duplicate` | Clone a GameObject (with components); optional rename/reposition | `path`, `name`, `setPosition`, `position` |
 | `grid.create` | Build an N×N grid of square cell tiles in one call (`<prefix>_x_y`) | `size`, `cellSize`, `gap`, `color`, `parentName`, `namePrefix`, `sortingOrder`, `z` |
