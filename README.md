@@ -50,14 +50,11 @@ https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity
 
 Open your project — you'll see `[AIBridge] Bridge ready …` in the Console and a **Tools ▸ AI Bridge** menu.
 
-**2. Teach your AI agent.** Give your local agent the bundled skill so it knows the commands. For
-**Claude Code**, copy:
+**2. Configure your AI agent — one click.** In Unity: **Tools ▸ AI Bridge ▸ Configure Claude Code**.
+This installs the `unity-bridge` skill into your project at `.claude/skills/unity-bridge/SKILL.md`, so
+Claude Code knows how to drive the bridge.
 
-```text
-com.aibridge.unity/Documentation~/AI-USAGE.md  →  <your project>/.claude/skills/unity-bridge/SKILL.md
-```
-
-That's it. Now just ask.
+That's it. Point Claude Code at the project and just ask.
 
 ## Use it — examples
 

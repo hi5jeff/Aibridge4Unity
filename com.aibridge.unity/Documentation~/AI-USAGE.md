@@ -1,8 +1,10 @@
 # Using AI Bridge with an AI agent
 
 This is the agent-facing guide for driving Unity through AI Bridge. To make it a first-class skill
-for a Claude session working in a project, copy it to `<project>/.claude/skills/unity-bridge/SKILL.md`
-and add YAML frontmatter:
+for a Claude session, run **Tools ▸ AI Bridge ▸ Configure Claude Code** in Unity — it installs the
+ready-made skill (`Documentation~/SKILL.md`) to `<project>/.claude/skills/unity-bridge/SKILL.md` for
+you. To wire it up manually instead, copy that file to the same path; it already carries the YAML
+frontmatter:
 
 ```yaml
 ---

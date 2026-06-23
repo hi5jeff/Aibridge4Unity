@@ -1,7 +1,7 @@
 {
   "name": "com.aibridge.unity",
   "displayName": "AI Bridge for Unity",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "unity": "6000.0",
   "description": "Let a local AI assistant build your Unity game by talking to it: read the scene and screenshots (incl. UI and the running game), create/modify objects, lay out UGUI, use sprites, author animations, write & compile C#, run Play mode, and more — over a simple file channel. No MCP, no server, no ports.",
   "keywords": [

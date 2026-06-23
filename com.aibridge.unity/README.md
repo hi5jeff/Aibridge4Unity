@@ -17,6 +17,9 @@ This is a local (embedded) package. With the project open in Unity 6 (6000.x), i
 automatically at `Packages/com.aibridge.unity/`. To reuse it in another project, copy the
 folder into that project's `Packages/`, or reference it by git URL once published.
 
+Then run **Tools ▸ AI Bridge ▸ Configure Claude Code** to install the bundled `unity-bridge` skill
+into `<project>/.claude/skills/`, so your local AI agent knows the commands.
+
 ## How it works
 
 ```
@@ -79,6 +82,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `scene.list` | List open scenes + all scenes in the project | — |
 | `scene.close` | Unload an additively-loaded scene | `path` |
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
+| `menu.execute` | Run any Editor menu item by path (e.g. `Tools/AI Bridge/Configure Claude Code`) | `menuPath` |
 | `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
 | `asset.reimport` | Force-reimport an asset/folder (e.g. so an importer like spine-unity regenerates derived assets) | `path` |
 | `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |

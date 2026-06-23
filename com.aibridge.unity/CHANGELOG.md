@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.24.0] — one-click Claude Code setup
+
+### Added
+- **Tools ▸ AI Bridge ▸ Configure Claude Code** menu: installs the bundled `unity-bridge` skill into
+  `<project>/.claude/skills/unity-bridge/SKILL.md` so the local AI agent learns the commands — no
+  manual file copying.
+- `menu.execute` command: run any Editor menu item by path (e.g. drive the setup menu itself).
+
 ## [0.23.0] — scene management
 
 ### Added
