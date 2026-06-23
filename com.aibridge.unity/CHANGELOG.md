@@ -3,6 +3,12 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.21.0] — audio
+
+### Added
+- `audio.add`: add/configure an AudioSource on a GameObject and assign an AudioClip (loop, volume,
+  playOnAwake, 2D/3D spatialBlend).
+
 ## [0.20.0] — clear console
 
 ### Added
