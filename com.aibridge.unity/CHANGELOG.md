@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.19.0] — reimport + Spine
+
+### Added
+- `asset.reimport`: force-reimport an asset/folder (recursive) — e.g. to make an importer like
+  spine-unity regenerate its derived assets for files imported before the plugin was present.
+- **Spine Integration** sample (`Samples~/SpineIntegration`): `spine.list`, `spine.instantiate`,
+  `spine.play`. Optional, dependency-gated — only compiles when the spine-unity runtime is installed.
+
 ## [0.18.0] — run the game
 
 ### Added

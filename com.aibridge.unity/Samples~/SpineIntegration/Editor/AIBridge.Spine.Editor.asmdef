@@ -1,0 +1,14 @@
+{
+    "name": "AIBridge.Spine.Editor",
+    "rootNamespace": "AIBridge.SpineIntegration",
+    "references": [
+        "spine-unity",
+        "spine-unity-editor",
+        "spine-csharp",
+        "AIBridge.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "autoReferenced": true
+}

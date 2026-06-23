@@ -74,6 +74,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `editor.play` | Control Play mode (enter/exit/toggle/pause/resume/step) — run the game and observe it | `action` |
 | `status` | Editor busy-state (`isCompiling`/`isPlaying`/…) + last compile's messages — poll after `refresh` | — |
 | `asset.find` | Find project assets by Unity search filter (sprites, prefabs, materials, …) | `filter`, `folder`, `max` |
+| `asset.reimport` | Force-reimport an asset/folder (e.g. so an importer like spine-unity regenerates derived assets) | `path` |
 | `sprite.set` | Assign a sprite (by asset path) to a SpriteRenderer / UI Image — auto-imports as Sprite if needed | `path`, `assetPath`, `component` |
 | `ui.create` | Turnkey UGUI: image / text / button (auto Canvas + EventSystem, anchor presets) | `kind`, `name`, `parentPath`, `anchor`, `x/y/width/height`, `text`, `fontSize`, `color`, `sprite` |
 
@@ -146,6 +147,13 @@ Create one via **Tools ▸ AI Bridge ▸ Create Config Asset** (otherwise sensib
 | `pollIntervalSeconds` | `0.5` | How often the bridge scans for requests |
 | `language` | `en` | Message language (`en`, `zh-CN`, …) |
 | `enabled` | `true` | Master on/off switch |
+
+## Optional: Spine
+
+If your project uses **[spine-unity](http://esotericsoftware.com/spine-unity)** for 2D skeletal
+animation, import the **Spine Integration** sample (Package Manager ▸ AI Bridge ▸ Samples ▸ Import).
+It adds `spine.list`, `spine.instantiate`, and `spine.play`. The sample only compiles when spine-unity
+is present, so the core package stays dependency-free.
 
 ## Design rules
 

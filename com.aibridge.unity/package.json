@@ -1,18 +1,26 @@
 {
   "name": "com.aibridge.unity",
   "displayName": "AI Bridge for Unity",
-  "version": "0.1.0",
+  "version": "0.19.0",
   "unity": "6000.0",
-  "description": "Gives AI agents precise eyes and hands into the Unity presentation layer: read scene/UI state as exact data, capture annotated screenshots, and wire references programmatically. Communicates over a simple file channel — no MCP, no server, no open ports.",
+  "description": "Let a local AI assistant build your Unity game by talking to it: read the scene and screenshots (incl. UI and the running game), create/modify objects, lay out UGUI, use sprites, author animations, write & compile C#, run Play mode, and more — over a simple file channel. No MCP, no server, no ports.",
   "keywords": [
     "ai",
     "editor",
     "automation",
     "tooling",
-    "agent"
+    "agent",
+    "2d"
   ],
   "author": {
-    "name": "unity_test"
+    "name": "hi5jeff"
   },
-  "type": "tool"
+  "type": "tool",
+  "samples": [
+    {
+      "displayName": "Spine Integration",
+      "description": "spine.list / spine.instantiate / spine.play commands. Requires the spine-unity runtime to be installed.",
+      "path": "Samples~/SpineIntegration"
+    }
+  ]
 }
