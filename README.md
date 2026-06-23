@@ -10,9 +10,11 @@ game, all from a chat. No server, no ports, no MCP setup — just install a pack
 ## What it can do
 
 - 👀 **See** your scene as data *and* as real screenshots — including the UI and the game while it runs.
+- 🐛 **Read the Console** — logs, warnings, and compile errors — so it can debug and fix its own mistakes without you reading them out.
 - 🧱 **Build** GameObjects, UGUI (canvas/buttons/text), grids, and prefabs.
 - 🎨 **Use your art** — import images as sprites and put them on objects.
-- 🎞️ **Animate** — author keyframe animations (move, scale, color) in one step.
+- 🎞️ **Animate** — keyframe animations (move/scale/color), plus optional **Spine** skeletal animation.
+- 🔊 **Sound & ✨ effects** — add audio sources and particle effects.
 - 🧠 **Write game logic** — it writes C#, compiles it itself, and reads its own errors.
 - ▶️ **Run the game** — enter Play mode and watch it.
 - 👉 **Understand "this / here"** — you click an object or a spot in Unity, and the AI knows exactly what you mean.
@@ -70,6 +72,9 @@ Talk to your AI agent normally; it drives Unity for you. For example:
 | *"Make the coin bob up and down"* | builds a looping keyframe animation and attaches it |
 | *"Turn this into a prefab and spawn 5 of them"* | saves a prefab and instantiates copies |
 | *"Add a `PlayerHealth` script and put it on the player"* | writes the C#, compiles it, attaches it |
+| *"Why is there an error? Fix it."* | reads the Console errors, finds the cause, and fixes it |
+| *"Add a coin pickup sound"* / *"Add a spark burst here"* | adds an AudioSource / a particle effect |
+| *"Spawn the spineboy character and play 'walk'"* | instantiates a Spine skeleton and plays the animation |
 | *"Move **this** here"* (you click an object, then a spot) | reads your selection/point and moves it |
 | *"Run it"* | enters Play mode so you can watch the game |
 
