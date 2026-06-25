@@ -3,6 +3,20 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.26.0] — non-destructive prefab editing + presentation rules
+
+### Added
+- **`prefab.modify`** — edit an existing prefab in place without rewriting it. Applies only the listed
+  ops to named child objects (text / sprite / color / active / rect / `Component.member` via reflection,
+  and `duplicateAs` to clone a child), then saves. Snapshots every RectTransform and Graphic and
+  restores the ones not explicitly targeted, so a layout/canvas rebuild can never move or recolour
+  objects you didn't touch — the user's hand-tuned layout is preserved.
+- **`Documentation~/PRESENTATION_RULES.md`** — hard rules for the agent when building a project's
+  presentation layer (editable prefabs, no hardcoded coords, non-destructive edits, native-size sprites,
+  no git on the user's project, real Unity game-feel). A project's `CLAUDE.md` points to this file
+  instead of inlining the rules, so they're maintained in one place and ship with the tool. SKILL.md
+  links to it.
+
 ## [0.25.1] — docs: manual skill kick-start
 
 ### Changed

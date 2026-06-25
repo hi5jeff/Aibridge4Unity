@@ -5,6 +5,10 @@ description: Drive the open Unity Editor from this session via the AI Bridge fil
 
 # Unity Bridge — driving the Unity Editor
 
+> **⚠️ Building UI / presentation / animation / effects? FIRST read [`PRESENTATION_RULES.md`](./PRESENTATION_RULES.md)
+> (next to this file) — hard rules: editable prefabs (no hardcoded coords), non-destructive prefab edits,
+> native-size sprites, no git on the user's project, real Unity game-feel. Violating them costs rework.**
+
 The **AI Bridge** package runs inside the open Unity Editor and exposes commands over a plain file
 channel. You operate Unity by writing a request file and reading the reply. No MCP, no ports.
 

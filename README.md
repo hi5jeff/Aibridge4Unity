@@ -14,6 +14,7 @@ game, all from a chat. No server, no ports, no MCP setup — just install a pack
 - 👀 **See** your scene as data *and* as real screenshots — including the UI and the game while it runs.
 - 🐛 **Read the Console** — logs, warnings, and compile errors — so it can debug and fix its own mistakes without you reading them out.
 - 🧱 **Build** GameObjects, UGUI (canvas/buttons/text), grids, and prefabs.
+- ✏️ **Edit prefabs non-destructively** — change one element/field at a time (text, sprite, color, layout, duplicate) without rewriting the whole prefab, so your hand-tuned layout is never clobbered.
 - 🎨 **Use your art** — import images as sprites and put them on objects.
 - 🎞️ **Animate** — keyframe animations (move/scale/color), plus optional **Spine** skeletal animation.
 - 🔊 **Sound & ✨ effects** — add audio sources and particle effects.
