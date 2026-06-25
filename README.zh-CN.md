@@ -14,6 +14,7 @@
 - 👀 **看**你的场景——既能读成数据，也能拍真实截图（包含 UI，以及游戏运行时的画面）。
 - 🐛 **读控制台**——日志、警告、编译错误——它能自己调试、修自己的错，不用你念给它听。
 - 🧱 **搭建** GameObject、UGUI（画布/按钮/文字）、网格、预制体。
+- ✏️ **非破坏式改预制体**——一次只改一个元素/字段（文字、精灵、颜色、布局、复制），不重写整个 prefab，绝不冲掉你手调的布局。
 - 🎨 **用你的美术**——把图片导入成精灵并挂到对象上。
 - 🎞️ **做动画**——关键帧动画（移动/缩放/颜色），以及可选的 **Spine** 骨骼动画。
 - 🔊 **声音 & ✨ 特效**——添加音频源和粒子特效。
@@ -60,6 +61,18 @@ https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity
 > **如果代理没有自动用上**，跟它说一句即可：
 > *“读取 `.claude/skills/unity-bridge/SKILL.md` 并用它来驱动 Unity。”*
 > 它从这个文件学会文件通道后，本次会话剩下的时间就一直能用了。（Claude Desktop 和 Claude Code 都适用。）
+
+## 更新到新版本
+
+Unity 的 Package Manager 会把 git 包**锁定在安装时的那个 commit**（记录在 `Packages/packages-lock.json`），所以本仓库有新提交时它**不会自动更新**。拉取最新版：
+
+- **最简单（Package Manager）**：Window → Package Manager → **In Project** → *AI Bridge for Unity* → 若显示 **Update** 按钮就点击；否则 **Remove** 后重新 **Add package from git URL**，会重新解析到最新 commit。你的 `BridgeConfig` 资源和 `.aibridge` 通道都在你的工程里，不会丢。
+- **钉版本（推荐）**：在 git URL 后加标签，更新只需改标签：
+  ```text
+  https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity#v0.26.0
+  ```
+  改 `#v…` 标签即可切到新版本。版本见仓库 **Releases**/tags，当前版本在 `com.aibridge.unity/package.json` 与 `CHANGELOG.md`。
+- **更新后**，再点一次 **Tools ▸ AI Bridge ▸ Configure Claude Code**，刷新随包的 `unity-bridge` skill 和新规则（如 `PRESENTATION_RULES.md`）。
 
 ## 怎么用——示例
 

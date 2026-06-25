@@ -16,6 +16,7 @@
 - 👀 **씬 보기** — 데이터로도, 실제 스크린샷으로도(UI 포함, 그리고 게임 실행 중 화면까지).
 - 🐛 **콘솔 읽기** — 로그·경고·컴파일 오류를 읽어, 여러분이 읽어 주지 않아도 스스로 디버깅하고 자신의 실수를 고칩니다.
 - 🧱 **만들기** — GameObject, UGUI(캔버스/버튼/텍스트), 그리드, 프리팹.
+- ✏️ **프리팹 비파괴 편집** — 한 번에 요소/필드 하나씩(텍스트·스프라이트·색상·레이아웃·복제) 바꾸고 prefab 전체를 다시 쓰지 않아, 손수 맞춘 레이아웃이 절대 덮어쓰이지 않습니다.
 - 🎨 **아트 사용** — 이미지를 스프라이트로 임포트해 오브젝트에 붙입니다.
 - 🎞️ **애니메이션** — 키프레임 애니메이션(이동/스케일/색상), 그리고 선택적 **Spine** 스켈레탈 애니메이션.
 - 🔊 **사운드 & ✨ 이펙트** — 오디오 소스와 파티클 이펙트를 추가합니다.
@@ -65,6 +66,18 @@ https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity
 > **에이전트가 자동으로 인식하지 못하면**, 한 번만 이렇게 말하세요:
 > *"`.claude/skills/unity-bridge/SKILL.md`를 읽고 그걸 사용해 Unity를 조작해줘."*
 > 그 파일에서 파일 채널을 배운 뒤로는 해당 세션 내내 동작합니다. (Claude Desktop과 Claude Code 모두 동일합니다.)
+
+## 새 버전으로 업데이트
+
+Unity의 Package Manager는 git 패키지를 **설치 시점의 commit에 고정**합니다(`Packages/packages-lock.json`에 기록). 그래서 이 저장소에 새 커밋이 올라와도 **자동으로 업데이트되지 않습니다**. 최신 버전을 받으려면:
+
+- **가장 쉬움(Package Manager)**: Window → Package Manager → **In Project** → *AI Bridge for Unity* → **Update** 버튼이 보이면 클릭하세요. 없으면 **Remove** 후 **Add package from git URL**로 다시 추가하면 최신 commit으로 다시 받습니다. `BridgeConfig` 에셋과 `.aibridge` 채널은 프로젝트에 있으므로 사라지지 않습니다.
+- **버전 고정(권장)**: git URL 뒤에 태그를 붙여 예측 가능하게 업데이트하세요:
+  ```text
+  https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity#v0.26.0
+  ```
+  `#v…` 태그를 올리면 새 버전으로 이동합니다. 버전 목록은 저장소 **Releases**/태그를, 현재 버전은 `com.aibridge.unity/package.json`과 `CHANGELOG.md`를 참고하세요.
+- **업데이트 후**, **Tools ▸ AI Bridge ▸ Configure Claude Code**를 한 번 다시 실행해 번들된 `unity-bridge` skill과 새 규칙(`PRESENTATION_RULES.md` 등)을 갱신하세요.
 
 ## 사용법 — 예시
 
