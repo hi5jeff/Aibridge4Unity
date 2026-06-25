@@ -3,6 +3,15 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.27.0] — force-compile
+
+### Added
+- **`compile`** — force a script recompile via `CompilationPipeline.RequestScriptCompilation()`.
+  Unlike an asset `refresh` (which Unity often defers until the Editor window regains focus), this
+  triggers compilation even while the Editor is **unfocused** — so an agent driving the Editor
+  headlessly via the bridge no longer stalls waiting for focus. Returns immediately; poll `status` for
+  `isCompiling`/`lastCompileHadErrors` and `console.read` for errors.
+
 ## [0.26.0] — non-destructive prefab editing + presentation rules
 
 ### Added
