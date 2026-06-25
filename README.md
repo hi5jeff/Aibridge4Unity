@@ -66,6 +66,25 @@ just ask.
 > It learns the file channel from that and works for the rest of the session. (Works in Claude
 > Desktop and Claude Code alike.)
 
+## Updating to a new version
+
+Unity's Package Manager **locks a git package to the commit it was installed at** (in
+`Packages/packages-lock.json`), so it does **not** auto-update when this repo gets new commits. To pull
+the latest:
+
+- **Easiest (Package Manager):** Window → Package Manager → **In Project** → *AI Bridge for Unity* →
+  if an **Update** button is shown, click it. Otherwise **Remove** it and **Add package from git URL**
+  again — it re-resolves to the latest commit. Your `BridgeConfig` asset and the `.aibridge` channel
+  live in your project, so nothing of yours is lost.
+- **Pin a release (recommended):** install/point at a tagged version so updates are predictable:
+  ```text
+  https://github.com/hi5jeff/Aibridge4Unity.git?path=/com.aibridge.unity#v0.26.0
+  ```
+  Bump the `#v…` tag to move to a newer release. See the repo's **Releases**/tags for versions; the
+  current version is in `com.aibridge.unity/package.json` and `CHANGELOG.md`.
+- **After updating**, re-run **Tools ▸ AI Bridge ▸ Configure Claude Code** once so the bundled
+  `unity-bridge` skill (and any new rules like `PRESENTATION_RULES.md`) refresh in your project.
+
 ## Use it — examples
 
 Talk to your AI agent normally; it drives Unity for you. For example:
