@@ -3,6 +3,16 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.37.1] — skill: @selection & Prefab Mode workflow
+
+### Changed
+- **`unity-bridge` skill (`Documentation~/SKILL.md`)** now documents the `@selection` target and the
+  **Prefab Mode** gotcha — the single biggest workflow trap: the bridge's scene-path lookup can't see an open
+  Prefab Mode stage, so editing the prefab asset on disk shows nothing (stale stage) while `selection.get`
+  still reads the selection. The fix (`path:"@selection"`, or exit Prefab Mode) is now front-and-center, plus
+  the recent UI commands (`prefab.modify`, `ui.buildPrefabFromSpec`, `ui.makeScrollable`, `compile`) in the
+  table. Re-run **Tools ▸ AI Bridge ▸ Configure Claude Code** to refresh a project's local skill copy.
+
 ## [0.37.0] — edit what you selected (Prefab Mode too)
 
 ### Added

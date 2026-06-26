@@ -42,6 +42,24 @@ When the user says "this / here / the selected one", they mean what they pointed
 Selected **assets** (sprites, prefabs, materials…) appear under `assets[]` (with `assetPath`) in both
 `selection.json` and `selection.get` — feed `assetPath` into `reference.wire` `targetAssetPath`.
 
+### Editing what the user selected — and **Prefab Mode** (important)
+
+To change the exact thing the user picked, pass `path: "@selection"` to `object.modify` / `component.set`.
+It targets `Selection.activeGameObject` directly, so it works **anywhere — including inside an open Prefab
+Mode stage**, which a scene-path lookup cannot reach.
+
+⚠️ **Prefab Mode is a separate stage the bridge's scene-path lookup does NOT see.** When the user has a
+prefab open in Prefab Mode (they double-clicked it):
+- `selection.get` *can* read their selection (you know what they picked), **but** a plain scene path like
+  `"Dex/BgImage"` won't resolve, and **editing the prefab asset on disk (`prefab.modify`) will NOT show** —
+  Unity doesn't refresh the open stage, and the user's later save can overwrite your disk edit.
+- **Do this instead:** edit `path: "@selection"` (reaches the live stage object the user sees), or ask the
+  user to **exit Prefab Mode** first. After an `@selection` edit they persist it with Ctrl+S in Prefab Mode.
+- Plain paths for `object.modify` / `component.set` also auto-fall back to the open Prefab stage.
+
+Tell-tale: you edit a prefab but the user keeps seeing the OLD value, and `selection.get` returns the same
+`entityId` every call → they're looking at a stale Prefab Mode stage. Switch to `@selection`.
+
 ## Commands
 
 | Command | Fields | Returns |
@@ -74,14 +92,21 @@ Selected **assets** (sprites, prefabs, materials…) appear under `assets[]` (wi
 | `audio.add` | `path`, `clip?`, `loop?`, `volume?`, `playOnAwake?`, `spatialBlend?` | add/configure an AudioSource + assign a clip |
 | `particle.create` | `name?`, `parentPath?`, `position?`, `preset` (burst/explosion/stream/sparkle), `color?`, `size?`, `lifetime?`, `count?` | create a particle effect (plays in Play mode) |
 | `ui.create` | `kind` (image/text/button/canvas), `name?`, `parentPath?`, `anchor?`, `x/y/width/height?`, `text?`, `fontSize?`, `color?`, `sprite?` | turnkey UGUI (auto Canvas + EventSystem) |
+| `prefab.modify` | `prefabPath`, `edits:[{path, ops?, addChild?, duplicateAs?}]` | **non-destructive** in-place prefab edit: patch text/sprite/color/active/rect/`Type.member`; `addChild` (image/text/empty, `index` for layering); `ops:addComponent` | 
+| `ui.buildPrefabFromSpec` | `specPath`(.ui.json), `outPrefab`, `spriteRoots[]`, `fontResource` | a node-tree spec → a UGUI prefab (then tune with `prefab.modify`) |
+| `ui.makeScrollable` | `prefabPath`, `node`, `vertical?`, `horizontal?`, `width?`, `height?` | wrap a layout container in a ScrollRect (viewport = node's size) so a list scrolls instead of overflowing |
+| `compile` | — | force a script recompile even while the Editor is unfocused (poll `status`) |
 
 Notes:
-- **Paths** are `Root/Child/Leaf` within the active scene (the shape `scene.dump` emits).
+- **Paths** are `Root/Child/Leaf` within the active scene (the shape `scene.dump` emits) — or **`@selection`**
+  to target the current Editor selection (the only way to reach a node inside an open Prefab Mode stage).
 - `object.modify` properties: `name`, `active`, `position`, `localPosition`, `rotation` (euler),
   `localRotation`, `scale`; UI: `anchoredPosition`, `sizeDelta`, `anchorMin`, `anchorMax`, `pivot`.
   Vector values are comma-separated, e.g. `"1,2,0"`.
+- For a **prefab asset**, prefer `prefab.modify` (non-destructive, snapshots & restores untouched
+  transforms). Don't do it while the user has that prefab open in Prefab Mode — use `@selection` instead.
 - `reference.wire` is for object-reference fields only; for primitive values use the Inspector/scripts.
-- All edits register **Undo** (the user can Ctrl+Z).
+- All edits register **Undo** (the user can Ctrl+Z). Full evolving command list: `README.md` / `CHANGELOG.md`.
 
 ## Recommended loop
 
