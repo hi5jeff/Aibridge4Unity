@@ -101,6 +101,8 @@ On failure, `ok` is `false` and `error` holds the message.
 | `ui.buildPrefabFromSpec` | A `.ui.json` node tree → a UGUI prefab (anchors, Image/Text/Button/Slider/Toggle/Container, sprite resolve, grid layout, 9-slice; TMP via reflection) | `specPath`, `outPrefab`, `spriteRoots[]`, `fontResource` |
 | `ui.bindFromManifest` | Auto-place static-text image sprites into a prefab's text slots from a `text→file` manifest (dynamic slots stay TMP); `dryRun` + per-slot `overrides` | `prefabPath`, `manifestResource`, `spriteRoot`, `dryRun`, `overrides[]` |
 | `tmp.createMaterialPreset` | Create a TMP material preset `.mat` (Outline/Underlay/Glow) off a font asset without editing the font (avoids the color-break bug) | `fontResource`, `name`, `outDir`, `face`, `outline`, `underlay`, `glow` |
+| `so.importFromJson` | Create or update a ScriptableObject `.asset` from JSON (data→asset). `update` overwrites fields in place, keeping the GUID | `soType`, `outAsset`, `json` / `jsonPath`, `update` |
+| `juice.attachProfile` | Give an object life: build a looping clip + Animator from a preset (`breathe`/`pulse`/`bob`/`spin`/`throb`), keyed off its current transform/color so authored values are kept | `path`, `profile`, `amount`, `period`, `name` |
 
 ### `object.modify`
 

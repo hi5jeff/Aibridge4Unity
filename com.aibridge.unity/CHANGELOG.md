@@ -3,6 +3,34 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.34.0] — data→asset, turnkey juice, stronger auto-use
+
+### Added
+- **`so.importFromJson`** — create or update a ScriptableObject `.asset` from JSON (Bridge4Unity_개선제안
+  P1-1). Resolves the SO type by simple/full name across assemblies, populates via `JsonUtility.FromJsonOverwrite`,
+  writes the asset; `update:true` overwrites fields on the existing asset in place (keeping its GUID, so
+  references survive). The data→asset counterpart to `asset.importBatch` (files→assets) — lets an agent
+  generate tuning/table/config assets straight from JSON. Verified: create (all fields land) + update-in-place.
+- **`juice.attachProfile`** — give an object life in one call (Bridge4Unity_개선제안 P2-2): builds a looping
+  `AnimationClip` + `AnimatorController` + `Animator` from a named preset — `breathe` (gentle scale yoyo) /
+  `pulse` (sharp scale punch+rest) / `bob` (vertical position) / `spin` (continuous Z) / `throb` (color-alpha
+  yoyo, SpriteRenderer or any UGUI Graphic). The zero-config counterpart to `animation.create` (explicit
+  channels). Non-destructive: every preset is keyed off the object's *current* scale/position/rotation/color,
+  so it never snaps an authored transform to identity. Params: `amount` (scale fraction / bob units / alpha
+  drop), `period` (loop seconds).
+
+### Changed
+- **Configure Claude Code** now writes a stronger always-on CLAUDE.md block — marks the bridge as REQUIRED
+  (overrides defaults), explicitly forbids falling back to screenshots / computer-use / a Unity MCP server,
+  and includes a one-line `ping` liveness self-check. Hardens auto-use for sessions that previously drifted to
+  screen control instead of the file channel.
+
+### Fixed
+- `juice.attachProfile` Animator wiring used `GetComponent<Animator>() ?? AddComponent(...)` — the C# `??`
+  operator doesn't honor Unity's overloaded "fake null", so it returned the missing component and threw
+  `MissingComponentException`. Switched to an explicit `== null` check (the pattern `animation.create` already
+  uses). A reminder that `??`/`?.` are unsafe on `UnityEngine.Object`.
+
 ## [0.33.0] — prefab.modify can add components
 
 ### Added

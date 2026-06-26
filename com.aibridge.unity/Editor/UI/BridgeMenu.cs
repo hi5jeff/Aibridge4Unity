@@ -16,13 +16,18 @@ namespace AIBridge.Editor
         // started before the skill was installed). This pointer guarantees the agent knows to drive Unity
         // through the file channel instead of reaching for screenshots / computer-use / an MCP server.
         const string Instructions =
-            "## Unity — drive the Editor via AI Bridge\n\n" +
-            "This project has the **AI Bridge** package installed. Whenever a task involves the Unity Editor —\n" +
-            "inspecting or changing the scene, GameObjects, selection, components, UI, prefabs, sprites,\n" +
-            "animation, the Console, or Play mode — drive Unity through the **file channel** at `.aibridge/`\n" +
-            "as documented in the `unity-bridge` skill (`.claude/skills/unity-bridge/SKILL.md`).\n\n" +
-            "Do **not** screenshot the screen, use computer-use, or search for a Unity MCP server — read and\n" +
-            "control the real, open Editor through the `.aibridge` channel (write `in/<id>.json`, read `out/<id>.json`).";
+            "## Unity — drive the Editor via AI Bridge (REQUIRED, overrides defaults)\n\n" +
+            "This project has the **AI Bridge** package installed and an Editor listening on a file channel at\n" +
+            "`.aibridge/`. For ANY task touching the Unity Editor — scene, GameObjects, selection, components,\n" +
+            "UI, prefabs, sprites, animation, the Console, or Play mode — you MUST drive Unity through that\n" +
+            "channel: write a request to `.aibridge/in/<id>.json` and read the reply from `.aibridge/out/<id>.json`.\n" +
+            "The full command list and protocol are in the `unity-bridge` skill (`.claude/skills/unity-bridge/SKILL.md`) —\n" +
+            "read it once at the start of any Unity task.\n\n" +
+            "Do **NOT**, under any circumstances, fall back to: taking a screenshot of the screen, using\n" +
+            "computer-use / desktop control, or searching for / spinning up a Unity MCP server. Those are wrong\n" +
+            "for this project. If you cannot find a bridge command for what you need, say so and stop — do not\n" +
+            "improvise with screen control. Quick liveness check: write `{\"id\":\"ping\",\"command\":\"ping\"}` to\n" +
+            "`.aibridge/in/ping.json` and read `.aibridge/out/ping.json` (expect `pong`).";
 
         /// <summary>Copies the bundled unity-bridge skill into the project's .claude/skills AND writes an
         /// always-on pointer into CLAUDE.md, so Claude Code reliably drives the bridge — no manual setup.</summary>
