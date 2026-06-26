@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.36.0] — addChild sibling order (backgrounds)
+
+### Added
+- **`prefab.modify` `addChild` `index`** — control the new child's sibling order: `-1` (default) appends
+  (front), `0` makes it the first child (renders behind everything) — so you can add a full-screen background
+  Image to a screen that lacks one without it covering the content. Used to give the meta screens
+  (dex/rank/settings/scan/spend/settle/affinity/party) a backdrop their `.ui.json` didn't define.
+
 ## [0.35.0] — scrollable lists
 
 ### Added

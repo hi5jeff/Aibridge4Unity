@@ -40,6 +40,7 @@ namespace AIBridge.Editor.Handlers
             public string sprite = ""; public string text = ""; public string color = ""; public bool preserveAspect;
             public string anchorMin = ""; public string anchorMax = ""; public string anchoredPosition = ""; public string sizeDelta = ""; public string pivot = "";
             public int fontSize = 32; public string fontResource = "";
+            public int index = -1;   // sibling order: -1 = append (last/front); 0 = first (back, e.g. a background)
         }
         [System.Serializable] class Edit { public string path = ""; public string duplicateAs = ""; public Op[] ops = System.Array.Empty<Op>(); public ChildSpec[] addChild = System.Array.Empty<ChildSpec>(); }
         [System.Serializable] class Request { public string prefabPath = ""; public Edit[] edits = System.Array.Empty<Edit>(); }
@@ -130,6 +131,7 @@ namespace AIBridge.Editor.Handlers
             var go = new GameObject(ch.name, typeof(RectTransform));
             var rt = (RectTransform)go.transform;
             rt.SetParent(parent, false);
+            if (ch.index >= 0) rt.SetSiblingIndex(ch.index);   // 0 = first child (renders behind) — e.g. a background
             // default: fill the parent
             rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.pivot = new Vector2(0.5f, 0.5f);
             rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
