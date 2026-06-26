@@ -103,6 +103,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `tmp.createMaterialPreset` | Create a TMP material preset `.mat` (Outline/Underlay/Glow) off a font asset without editing the font (avoids the color-break bug) | `fontResource`, `name`, `outDir`, `face`, `outline`, `underlay`, `glow` |
 | `so.importFromJson` | Create or update a ScriptableObject `.asset` from JSON (data→asset). `update` overwrites fields in place, keeping the GUID | `soType`, `outAsset`, `json` / `jsonPath`, `update` |
 | `juice.attachProfile` | Give an object life: build a looping clip + Animator from a preset (`breathe`/`pulse`/`bob`/`spin`/`throb`), keyed off its current transform/color so authored values are kept | `path`, `profile`, `amount`, `period`, `name` |
+| `ui.makeScrollable` | Wrap a layout container in a `ScrollRect` in place (viewport = the node's current size, `RectMask2D` clip, size-fitted content) — so a list scrolls inside your set width/height instead of overflowing | `prefabPath`, `node`, `vertical`, `horizontal`, `width`, `height` |
 
 ### `object.modify`
 

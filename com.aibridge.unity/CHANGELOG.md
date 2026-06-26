@@ -3,6 +3,18 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.35.0] — scrollable lists
+
+### Added
+- **`ui.makeScrollable`** — wrap an existing layout container (Grid/Vertical/Horizontal layout group) in a
+  proper UGUI `ScrollRect` **in place**, without rebuilding the prefab. Fixes the common "the list shows every
+  item instead of scrolling inside my set width/height" gap on spec-built screens: the container's CURRENT
+  RectTransform becomes the clipped **viewport** (respecting your Inspector tuning), a `RectMask2D` clips it,
+  and the original node stays the **Content** (same name — screen scripts that find it and clone rows keep
+  working) with a `ContentSizeFitter` so it grows and scrolls. Request: `{ prefabPath, node, vertical,
+  horizontal, width, height }` (width/height 0 = keep the node's size). Verified on the 도감 grid (14 cards →
+  clipped to a 3-row viewport, rest scroll).
+
 ## [0.34.0] — data→asset, turnkey juice, stronger auto-use
 
 ### Added
