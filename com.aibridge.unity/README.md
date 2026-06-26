@@ -204,15 +204,16 @@ It registers itself on the next compile.
 
 Friction surfaced while building a full game headlessly via the bridge — candidates for hardening:
 
-- **`editor.play` is effectively a toggle.** Driving Play mode from a script is fragile: the first toggle
-  right after a domain reload can no-op, and entering/exiting Play can revert unsaved edits. Prefer an
-  explicit, idempotent set-state (`play`/`stop`) and always read `status` before acting.
+- **`editor.play`: pass `action` at the request root; use `"enter"`/`"exit"` for reliability.** `enter`/`exit`
+  are idempotent set-state (only act if needed) and drive Play mode dependably; `action` defaults to `"toggle"`,
+  so a call that *omits* it — or puts the intent in the wrong place (e.g. `args.enter`) — just flips state and
+  looks "flaky". Always read `status.isPlaying` to confirm (the transition is async). With `action:"enter"`,
+  `screenshot.gameview` then captures the running game reliably — the blank/stale frames we hit were this same
+  toggle misuse (Play wasn't actually running), not a capture bug.
 - **`scene.save` during Play silently reverts** to the pre-Play scene on exit — DEV/serialized changes made
   in Play can be lost. Save in Edit mode only; a Play-mode save should warn or refuse.
-- **`screenshot.gameview` can return a blank/stale frame** when the Game view isn't focused or not actively
-  playing — unreliable for headless visual verification. A scene-view / offscreen-render capture that works
-  in Edit mode is the more dependable check.
 - **Argument placement isn't uniform** across commands (some read fields at the request root, some under
   `args`). Normalizing this would reduce trial-and-error.
-- **`prefab.modify`** can patch existing nodes but can't yet *add* a child (e.g. an Image under a text slot)
-  — that gap is filled today by `ui.bindFromManifest`; a general `addChild`/`addComponent` op is the next step.
+- **`prefab.modify` now adds children too** (`addChild`), not just patches existing nodes — e.g. overlay an
+  Image sprite under a text slot, or add a label — so `ui.bindFromManifest` is no longer the only way to grow
+  a prefab. A general `addComponent` op on arbitrary existing nodes is the next step.

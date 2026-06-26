@@ -23,13 +23,24 @@ namespace AIBridge.Editor.Handlers
     ///   color  — "r,g,b[,a]" (0–1) or "#RRGGBB(AA)"; set on the object's Graphic.
     /// path is a Transform path relative to the prefab root (root name optional); falls back to a
     /// recursive search by leaf name.
+    /// An edit may also ADD children under the found node via "addChild":[ {name,type,sprite,text,color,
+    /// preserveAspect, anchorMin,anchorMax,anchoredPosition,sizeDelta,pivot, fontSize,fontResource} ] —
+    /// type is image|text|empty, defaulting to a full-stretch RectTransform. New children aren't in the
+    /// pre-edit snapshots, so the non-destructive restore never touches them (same safety as duplicateAs).
     /// </summary>
     public class PrefabModifyHandler : ICommandHandler
     {
         public string Command => "prefab.modify";
 
         [System.Serializable] class Op { public string property = ""; public string value = ""; }
-        [System.Serializable] class Edit { public string path = ""; public string duplicateAs = ""; public Op[] ops = System.Array.Empty<Op>(); }
+        [System.Serializable] class ChildSpec
+        {
+            public string name = ""; public string type = "image";   // image | text | empty
+            public string sprite = ""; public string text = ""; public string color = ""; public bool preserveAspect;
+            public string anchorMin = ""; public string anchorMax = ""; public string anchoredPosition = ""; public string sizeDelta = ""; public string pivot = "";
+            public int fontSize = 32; public string fontResource = "";
+        }
+        [System.Serializable] class Edit { public string path = ""; public string duplicateAs = ""; public Op[] ops = System.Array.Empty<Op>(); public ChildSpec[] addChild = System.Array.Empty<ChildSpec>(); }
         [System.Serializable] class Request { public string prefabPath = ""; public Edit[] edits = System.Array.Empty<Edit>(); }
         [System.Serializable] class Result { public string prefabPath = ""; public string[] applied = System.Array.Empty<string>(); public string[] errors = System.Array.Empty<string>(); }
 
@@ -81,6 +92,13 @@ namespace AIBridge.Editor.Handlers
                         }
                         catch (System.Exception e) { errors.Add($"{edit.path}:{op.property}: {e.Message}"); }
                     }
+                    // New children: created under the found node. They are NOT in the pre-edit snapshots,
+                    // so the restore pass below never touches them — same safety as duplicateAs.
+                    foreach (var ch in edit.addChild)
+                    {
+                        try { CreateChild(go.transform, ch); applied.Add($"{edit.path}:addChild->{ch.name}"); }
+                        catch (System.Exception e) { errors.Add($"{edit.path}:addChild({ch.name}): {e.Message}"); }
+                    }
                 }
 
                 // Restore everything we did not explicitly target (undoes collateral rebuild changes).
@@ -96,6 +114,73 @@ namespace AIBridge.Editor.Handlers
             AssetDatabase.SaveAssets();
             var result = new Result { prefabPath = req.prefabPath, applied = applied.ToArray(), errors = errors.ToArray() };
             return CommandResult.Success(JsonUtility.ToJson(result));
+        }
+
+        // Reflection so the bridge stays decoupled from TMP (separate assembly) yet still drives it.
+        static readonly System.Type? TmpType = System.Type.GetType("TMPro.TextMeshProUGUI, Unity.TextMeshPro");
+        static readonly System.Type? TmpFontType = System.Type.GetType("TMPro.TMP_FontAsset, Unity.TextMeshPro");
+
+        // Create a new child object under `parent`. Fills the README-flagged gap: prefab.modify could
+        // patch existing nodes but not ADD one (e.g. overlay an Image sprite under a text slot, or add a
+        // label). Defaults to a full-stretch RectTransform when no anchors are given.
+        static void CreateChild(Transform parent, ChildSpec ch)
+        {
+            if (string.IsNullOrEmpty(ch.name)) throw new System.Exception("child needs a name");
+            var go = new GameObject(ch.name, typeof(RectTransform));
+            var rt = (RectTransform)go.transform;
+            rt.SetParent(parent, false);
+            // default: fill the parent
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.pivot = new Vector2(0.5f, 0.5f);
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+            if (!string.IsNullOrEmpty(ch.anchorMin)) rt.anchorMin = V2(ch.anchorMin);
+            if (!string.IsNullOrEmpty(ch.anchorMax)) rt.anchorMax = V2(ch.anchorMax);
+            if (!string.IsNullOrEmpty(ch.pivot)) rt.pivot = V2(ch.pivot);
+            if (!string.IsNullOrEmpty(ch.sizeDelta)) rt.sizeDelta = V2(ch.sizeDelta);
+            if (!string.IsNullOrEmpty(ch.anchoredPosition)) rt.anchoredPosition = V2(ch.anchoredPosition);
+
+            switch ((ch.type ?? "image").Trim().ToLowerInvariant())
+            {
+                case "text":
+                    if (TmpType == null) throw new System.Exception("TMP not available");
+                    var tmp = go.AddComponent(TmpType);
+                    SetProp(tmp, "text", ch.text ?? "");
+                    SetProp(tmp, "fontSize", (float)ch.fontSize);
+                    if (!string.IsNullOrEmpty(ch.color) && TryColor(ch.color, out var tc)) SetProp(tmp, "color", tc);
+                    if (TmpFontType != null && !string.IsNullOrEmpty(ch.fontResource))
+                    {
+                        var fa = Resources.Load(ch.fontResource, TmpFontType);
+                        if (fa != null) SetProp(tmp, "font", fa);
+                    }
+                    break;
+                case "empty":
+                    break;
+                default: // image
+                    var img = go.AddComponent<Image>();
+                    if (!string.IsNullOrEmpty(ch.sprite))
+                    {
+                        var sp = AssetDatabase.LoadAssetAtPath<Sprite>(ch.sprite);
+                        if (sp == null) throw new System.Exception($"sprite not found: '{ch.sprite}'");
+                        img.sprite = sp; img.preserveAspect = ch.preserveAspect;
+                    }
+                    if (!string.IsNullOrEmpty(ch.color) && TryColor(ch.color, out var ic)) img.color = ic;
+                    break;
+            }
+        }
+
+        static void SetProp(object o, string name, object value)
+        {
+            var p = o.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            if (p != null && p.CanWrite) { try { p.SetValue(o, value); } catch { } }
+        }
+
+        static bool TryColor(string value, out Color c)
+        {
+            c = Color.white;
+            if (string.IsNullOrEmpty(value)) return false;
+            if (value.TrimStart().StartsWith("#")) return ColorUtility.TryParseHtmlString(value.Trim(), out c);
+            var p = value.Split(',');
+            if (p.Length < 3) return false;
+            c = new Color(F(p[0]), F(p[1]), F(p[2]), p.Length > 3 ? F(p[3]) : 1f); return true;
         }
 
         static void ApplyOp(GameObject go, Op op)

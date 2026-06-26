@@ -3,6 +3,23 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.32.0] — prefab.modify can add children
+
+### Added
+- **`prefab.modify` `addChild`** — an edit can now CREATE children under the found node, not only patch
+  existing ones (the last README-flagged gap). Each child: `{ name, type (image|text|empty), sprite, text,
+  color, preserveAspect, anchorMin, anchorMax, anchoredPosition, sizeDelta, pivot, fontSize, fontResource }`,
+  defaulting to a full-stretch RectTransform. Image children load a `Sprite` by asset path; text children
+  build a TMP label via reflection (no TMPro asmdef ref). New children aren't in the pre-edit snapshots, so
+  the non-destructive restore never touches them — same safety guarantee as `duplicateAs`. Verified
+  end-to-end: added image+text children, confirmed both persist and are findable by name in a later edit.
+
+### Changed
+- README **Known limitations**: corrected the `editor.play` note — it's NOT toggle-broken. `action:"enter"`/
+  `"exit"` (at the request root) are idempotent and reliable; the "flaky Play / blank screenshot" pain was a
+  usage bug (omitting `action` → default `toggle`, or sending `args.enter` which is ignored). Dropped the
+  stale screenshot-unreliable bullet and the prefab.modify-can't-add-children bullet (now done).
+
 ## [0.31.1] — docs
 
 ### Changed
