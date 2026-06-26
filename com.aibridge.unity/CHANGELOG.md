@@ -3,6 +3,14 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.31.1] — docs
+
+### Changed
+- README: document the recent commands (`prefab.modify`, `compile`, `asset.importBatch`,
+  `ui.buildPrefabFromSpec`, `ui.bindFromManifest`, `tmp.createMaterialPreset`) in the command table, and
+  add a **Known limitations / roadmap** section capturing real AI-driven-use friction (Play-mode toggle
+  semantics, scene.save-in-Play revert, screenshot reliability, argument-placement consistency).
+
 ## [0.31.0] — spec→prefab: sliders & toggles
 
 ### Added

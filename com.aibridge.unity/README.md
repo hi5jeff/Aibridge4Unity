@@ -95,6 +95,12 @@ On failure, `ok` is `false` and `error` holds the message.
 | `audio.add` | Add/configure an AudioSource on a GameObject and assign an AudioClip | `path`, `clip`, `loop`, `volume`, `playOnAwake`, `spatialBlend` |
 | `particle.create` | Create a ParticleSystem from a preset (burst/explosion/stream/sparkle), 2D-friendly | `name`, `parentPath`, `position`, `preset`, `color`, `size`, `lifetime`, `count` |
 | `ui.create` | Turnkey UGUI: image / text / button (auto Canvas + EventSystem, anchor presets) | `kind`, `name`, `parentPath`, `anchor`, `x/y/width/height`, `text`, `fontSize`, `color`, `sprite` |
+| `prefab.modify` | **Non-destructive** in-place prefab edit: patch only the listed ops on named children (text/sprite/color/active/rect/`Component.member`), preserving hand-tuned layout | `prefabPath`, `edits[]` |
+| `compile` | Force a script recompile even while the Editor is unfocused (poll `status`) | — |
+| `asset.importBatch` | Copy an external folder into `Assets/` + apply importer settings (Sprite) — closes the "delivered ≠ imported" gap | `srcDir`, `destDir`, `pattern`, `textureType`, `spriteMode`, `pixelsPerUnit`, `dryRun` |
+| `ui.buildPrefabFromSpec` | A `.ui.json` node tree → a UGUI prefab (anchors, Image/Text/Button/Slider/Toggle/Container, sprite resolve, grid layout, 9-slice; TMP via reflection) | `specPath`, `outPrefab`, `spriteRoots[]`, `fontResource` |
+| `ui.bindFromManifest` | Auto-place static-text image sprites into a prefab's text slots from a `text→file` manifest (dynamic slots stay TMP); `dryRun` + per-slot `overrides` | `prefabPath`, `manifestResource`, `spriteRoot`, `dryRun`, `overrides[]` |
+| `tmp.createMaterialPreset` | Create a TMP material preset `.mat` (Outline/Underlay/Glow) off a font asset without editing the font (avoids the color-break bug) | `fontResource`, `name`, `outDir`, `face`, `outline`, `underlay`, `glow` |
 
 ### `object.modify`
 
@@ -193,3 +199,20 @@ public class MyHandler : ICommandHandler
 ```
 
 It registers itself on the next compile.
+
+## Known limitations / roadmap (from real AI-driven use)
+
+Friction surfaced while building a full game headlessly via the bridge — candidates for hardening:
+
+- **`editor.play` is effectively a toggle.** Driving Play mode from a script is fragile: the first toggle
+  right after a domain reload can no-op, and entering/exiting Play can revert unsaved edits. Prefer an
+  explicit, idempotent set-state (`play`/`stop`) and always read `status` before acting.
+- **`scene.save` during Play silently reverts** to the pre-Play scene on exit — DEV/serialized changes made
+  in Play can be lost. Save in Edit mode only; a Play-mode save should warn or refuse.
+- **`screenshot.gameview` can return a blank/stale frame** when the Game view isn't focused or not actively
+  playing — unreliable for headless visual verification. A scene-view / offscreen-render capture that works
+  in Edit mode is the more dependable check.
+- **Argument placement isn't uniform** across commands (some read fields at the request root, some under
+  `args`). Normalizing this would reduce trial-and-error.
+- **`prefab.modify`** can patch existing nodes but can't yet *add* a child (e.g. an Image under a text slot)
+  — that gap is filled today by `ui.bindFromManifest`; a general `addChild`/`addComponent` op is the next step.
