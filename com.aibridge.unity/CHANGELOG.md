@@ -3,6 +3,46 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.30.0] — TMP material presets
+
+### Added
+- **`tmp.createMaterialPreset`** — create a TMP material preset `.mat` from a font asset
+  (Bridge4Unity_개선제안 P1-2): instances a NEW material off the font's atlas material and sets
+  Outline / Underlay(shadow) / Glow via the Material API (`EnableKeyword` + `SetColor`/`SetFloat`),
+  so the original font is never edited (avoids the "edit TMP color → font breaks" bug). No TMPro asmdef
+  reference needed. Assign the result to a text's `fontSharedMaterial`. Request: `{ fontResource, name,
+  outDir, face, outline{color,width}, underlay{color,alpha,offsetX,offsetY,dilate,softness}, glow{…} }`.
+
+## [0.29.0] — spec→prefab
+
+### Added
+- **`ui.buildPrefabFromSpec`** — turn a `.ui.json` node tree into a UGUI prefab (Bridge4Unity_개선제안
+  P0-3). Builds a Canvas root (ScaleWithScreenSize, match 0.5) + each node: Image / Button (Image+Button) /
+  Text (TMP via reflection — no TMPro asmdef ref needed) / Container (GridLayoutGroup / Vertical / Horizontal
+  parsed from the `layout` string). Resolves `sprite` paths against configurable Resources roots, sets
+  RectTransform anchors from the `anchor` token (`top-stretch`/`top-center`/`center`/…), font size/color/
+  align, 9-slice. Tune in place afterwards with `prefab.modify`. Removes the hand-coding-coordinates
+  pressure → `ui-prefab-not-code` becomes the default, not a rule. Request: `{ specPath, outPrefab (under
+  Assets/), spriteRoots[], fontResource }`. Verified: generated Dex(13)/Rank(19)/Settings(22) node prefabs.
+
+## [0.28.0] — data→asset binding (text images + batch import)
+
+### Added
+- **`asset.importBatch`** — copy an external folder of files into the project's `Assets/` and apply
+  importer settings in one command (Bridge4Unity_개선제안 P0-2). Closes the "delivered ≠ imported" gap:
+  art handed over in `shared/` (cutouts, text PNGs) gets copied in + set to Sprite (textureType/spriteMode/
+  pixelsPerUnit) without manual dragging. Supports `dryRun`. Request: `{ srcDir, destDir (under Assets/),
+  pattern, textureType, spriteMode, pixelsPerUnit, overwrite, dryRun }`.
+- **`ui.bindFromManifest`** — auto-place static-text image sprites into a prefab's text slots from a
+  `text→file` manifest. Walks every Graphic exposing a writable string `text` (TMP_Text or UI.Text),
+  looks its current string up in the manifest, and for each match adds a child `~img` Image (stretched,
+  `preserveAspect`) with the mapped sprite and blanks the glyphs. Dynamic slots (numbers, dialogue —
+  no match) are left as TMP. Non-destructive: only matched slots gain a `~img`; the user's tuned layout
+  is untouched. Supports **`dryRun`** (returns the would-bind/skipped diff without writing) and per-slot
+  **`overrides`** for slots whose prefab placeholder differs from the manifest string. First of the
+  Bridge4Unity_개선제안_v1 "data→asset" commands (productionizes the per-game StaticTextBaker).
+  Request: `{ prefabPath, manifestResource, spriteRoot, dryRun, overrides:[{slot,text}] }`.
+
 ## [0.27.0] — force-compile
 
 ### Added
