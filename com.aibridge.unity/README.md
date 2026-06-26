@@ -104,6 +104,7 @@ On failure, `ok` is `false` and `error` holds the message.
 | `so.importFromJson` | Create or update a ScriptableObject `.asset` from JSON (data→asset). `update` overwrites fields in place, keeping the GUID | `soType`, `outAsset`, `json` / `jsonPath`, `update` |
 | `juice.attachProfile` | Give an object life: build a looping clip + Animator from a preset (`breathe`/`pulse`/`bob`/`spin`/`throb`), keyed off its current transform/color so authored values are kept | `path`, `profile`, `amount`, `period`, `name` |
 | `ui.makeScrollable` | Wrap a layout container in a `ScrollRect` in place (viewport = the node's current size, `RectMask2D` clip, size-fitted content) — so a list scrolls inside your set width/height instead of overflowing | `prefabPath`, `node`, `vertical`, `horizontal`, `width`, `height` |
+| `ui.fitImage` | Size a UI Image to its sprite's native aspect, fitted to the screen + centered (no squash): `height`/`width`/`cover`/`contain`. Works on a prefab node or `path:"@selection"` | `prefabPath`+`node` / `path`, `mode`, `targetWidth?`, `targetHeight?`, `center?` |
 
 ### `object.modify`
 

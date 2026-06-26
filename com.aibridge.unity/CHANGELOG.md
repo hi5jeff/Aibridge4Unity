@@ -3,6 +3,17 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.38.0] — fit an image to the screen
+
+### Added
+- **`ui.fitImage`** — size a UI Image's RectTransform to its sprite's native aspect, fitted to the screen
+  (canvas) and centered, so a background/portrait isn't squashed by a full-stretch rect. Modes: `height`
+  (height fills, width follows — the usual "撑满高度"), `width`, `cover` (fill, crop overflow), `contain`
+  (fit inside, letterbox). Reads the sprite's native size and the Canvas reference resolution automatically
+  (or pass `targetWidth`/`targetHeight`). Works on a prefab asset (`{prefabPath, node}`) or a live/selected
+  object (`{path}`, incl. `"@selection"`). Bundles the manual native-size × scale math into one call.
+  Verified: 1536×1024 sprite → height/cover 2880×1920, contain 1080×720.
+
 ## [0.37.1] — skill: @selection & Prefab Mode workflow
 
 ### Changed
