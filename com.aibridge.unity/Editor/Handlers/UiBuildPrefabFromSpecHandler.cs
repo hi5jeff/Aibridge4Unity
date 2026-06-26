@@ -93,6 +93,8 @@ namespace AIBridge.Editor.Handlers
                         case "image": AddImage(go, n, req, warnings); break;
                         case "button": AddImage(go, n, req, warnings); go.AddComponent<Button>(); break;
                         case "text": AddText(go, n, req, warnings); break;
+                        case "slider": AddSlider(go, n, req); break;
+                        case "toggle": AddToggle(go, n, req); break;
                         case "container": if (!string.IsNullOrEmpty(n.layout)) AddLayout(go, n.layout); break;
                         default: AddImage(go, n, req, warnings); break;
                     }
@@ -161,6 +163,45 @@ namespace AIBridge.Editor.Handlers
                 string an = f.align.ToLowerInvariant() switch { "center" => "Center", "left" => "Left", "right" => "Right", _ => "" };
                 if (an != "") { try { SetProp(tmp, "alignment", Enum.Parse(TmpAlignType, an)); } catch { } }
             }
+        }
+
+        void AddSlider(GameObject go, SpecNode n, Request req)
+        {
+            var bg = go.AddComponent<Image>();
+            var trk = ResolveSprite(string.IsNullOrEmpty(n.sprite) ? "gauge_track" : n.sprite, req.spriteRoots);
+            if (trk != null) { bg.sprite = trk; bg.type = Image.Type.Sliced; } else bg.color = new Color(1f, 1f, 1f, 0.18f);
+
+            var fillGo = new GameObject("Fill", typeof(RectTransform), typeof(Image));
+            var frt = (RectTransform)fillGo.transform; frt.SetParent(go.transform, false);
+            frt.anchorMin = Vector2.zero; frt.anchorMax = Vector2.one; frt.offsetMin = Vector2.zero; frt.offsetMax = Vector2.zero;
+            var fimg = fillGo.GetComponent<Image>();
+            var fillSp = ResolveSprite("gauge_fill", req.spriteRoots);
+            if (fillSp != null) { fimg.sprite = fillSp; fimg.type = Image.Type.Sliced; } else fimg.color = new Color(1f, 0.82f, 0.3f, 0.95f);
+
+            var slider = go.AddComponent<Slider>();
+            slider.fillRect = frt;
+            slider.direction = Slider.Direction.LeftToRight;
+            slider.minValue = 0f; slider.maxValue = 1f; slider.value = 0.8f;
+            slider.targetGraphic = bg;
+        }
+
+        void AddToggle(GameObject go, SpecNode n, Request req)
+        {
+            var bg = go.AddComponent<Image>();
+            var sp = ResolveSprite(string.IsNullOrEmpty(n.sprite) ? "uip_btn_cyan" : n.sprite, req.spriteRoots);
+            if (sp != null) { bg.sprite = sp; bg.type = Image.Type.Sliced; } else bg.color = new Color(0.28f, 0.30f, 0.40f, 1f);
+
+            var checkGo = new GameObject("Check", typeof(RectTransform), typeof(Image));
+            var crt = (RectTransform)checkGo.transform; crt.SetParent(go.transform, false);
+            crt.anchorMin = new Vector2(0.55f, 0.12f); crt.anchorMax = new Vector2(0.95f, 0.88f); crt.offsetMin = Vector2.zero; crt.offsetMax = Vector2.zero;
+            var cimg = checkGo.GetComponent<Image>();
+            var ck = ResolveSprite("ico_star", req.spriteRoots);
+            if (ck != null) cimg.sprite = ck; else cimg.color = new Color(0.3f, 1f, 0.55f, 1f);
+
+            var toggle = go.AddComponent<Toggle>();
+            toggle.graphic = cimg;
+            toggle.targetGraphic = bg;
+            toggle.isOn = true;
         }
 
         static void AddLayout(GameObject go, string layout)

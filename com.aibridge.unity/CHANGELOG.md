@@ -3,6 +3,12 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.31.0] — spec→prefab: sliders & toggles
+
+### Added
+- **`ui.buildPrefabFromSpec`** now builds `Slider` (track + fill from `gauge_*`) and `Toggle` (bg + check)
+  node types, not just Image/Text/Button/Container — so settings-style screens come out interactive.
+
 ## [0.30.0] — TMP material presets
 
 ### Added
