@@ -214,6 +214,6 @@ Friction surfaced while building a full game headlessly via the bridge — candi
   in Play can be lost. Save in Edit mode only; a Play-mode save should warn or refuse.
 - **Argument placement isn't uniform** across commands (some read fields at the request root, some under
   `args`). Normalizing this would reduce trial-and-error.
-- **`prefab.modify` now adds children too** (`addChild`), not just patches existing nodes — e.g. overlay an
-  Image sprite under a text slot, or add a label — so `ui.bindFromManifest` is no longer the only way to grow
-  a prefab. A general `addComponent` op on arbitrary existing nodes is the next step.
+- **`prefab.modify` now grows prefabs**: `addChild` creates child nodes (Image/Text/empty) and `addComponent`
+  attaches components to existing nodes — so it's no longer limited to patching what's already there, and
+  `ui.bindFromManifest` isn't the only way to add to a prefab.

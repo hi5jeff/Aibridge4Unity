@@ -3,6 +3,16 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.33.0] — prefab.modify can add components
+
+### Added
+- **`prefab.modify` `addComponent` op** — `{ "property":"addComponent", "value":"VerticalLayoutGroup" }` adds a
+  component (simple or full type name, resolved across all assemblies) to the named node. Idempotent: a
+  component of that exact type already present is left as-is, so re-running an edit is safe. Combine with the
+  generic `Type.member` setter to add + configure in one edit (e.g. add a `VerticalLayoutGroup` then set its
+  `spacing`/`childAlignment`). Completes the "grow a prefab" story alongside `addChild` (add nodes) — the last
+  README-flagged next-step. Verified: add + idempotent re-add + member-set + clean error on an unknown type.
+
 ## [0.32.0] — prefab.modify can add children
 
 ### Added

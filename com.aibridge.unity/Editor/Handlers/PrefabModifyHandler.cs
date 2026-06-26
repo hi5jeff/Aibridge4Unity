@@ -17,7 +17,8 @@ namespace AIBridge.Editor.Handlers
     /// hand-tuned layout is never clobbered.
     ///
     /// Request: { "prefabPath":"Assets/.../X.prefab", "edits":[ { "path":"A/B/C", "ops":[ {property,value} ] } ] }
-    /// Properties: active|name|text|sprite|color|anchoredPosition|sizeDelta|anchorMin|anchorMax|pivot|localScale.
+    /// Properties: active|name|addComponent|text|sprite|color|anchoredPosition|sizeDelta|anchorMin|anchorMax|pivot|localScale.
+    ///   addComponent — value = a component type (simple or full name); idempotent (skips if already present).
     ///   text   — set via reflection on any component exposing a writable string `text` (TMP or UI.Text).
     ///   sprite — value = asset path to a Sprite; set on the object's Image.
     ///   color  — "r,g,b[,a]" (0–1) or "#RRGGBB(AA)"; set on the object's Graphic.
@@ -191,6 +192,7 @@ namespace AIBridge.Editor.Handlers
             {
                 case "active": go.SetActive(bool.Parse(op.value.Trim())); break;
                 case "name": go.name = op.value; break;
+                case "addComponent": AddComponentByName(go, op.value); break;
                 case "text": SetText(go, op.value); break;
                 case "sprite": SetSprite(go, op.value); break;
                 case "color": SetColor(go, op.value); break;
@@ -205,6 +207,16 @@ namespace AIBridge.Editor.Handlers
                     if (op.property.Contains(".")) { SetMember(go, op.property, op.value); break; }
                     throw new System.Exception($"unknown property '{op.property}'");
             }
+        }
+
+        // Add a component by simple or full type name (resolved across all assemblies). Idempotent:
+        // a component of that exact type already present is left as-is, so re-running an edit is safe.
+        static void AddComponentByName(GameObject go, string typeName)
+        {
+            var t = ComponentTypeResolver.Resolve(typeName);
+            if (t == null) throw new System.Exception($"unknown component type '{typeName}'");
+            if (go.GetComponent(t) != null) return;
+            go.AddComponent(t);
         }
 
         // Reflection so the bridge stays decoupled from TMP (separate assembly) yet still drives it.
