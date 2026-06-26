@@ -3,6 +3,17 @@
 All notable changes to **AI Bridge for Unity** are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.37.0] — edit what you selected (Prefab Mode too)
+
+### Added
+- **`object.modify` / `component.set` accept `path: "@selection"`** — target the current Editor selection
+  directly. `Selection.activeGameObject` works across contexts, so this reaches a node you've selected
+  **inside an open Prefab Mode stage** — which a scene-path lookup cannot (the bridge only sees loaded
+  scenes, not the prefab stage). Closes the "I can read the selection but can't edit what I picked in the
+  prefab" gap.
+- Plain path lookup for those commands now also **falls back to the open Prefab Mode stage** (so
+  `"Dex/BgImage"` resolves while you're editing `Dex.prefab`), with a recursive leaf-name fallback.
+
 ## [0.36.0] — addChild sibling order (backgrounds)
 
 ### Added

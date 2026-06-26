@@ -46,10 +46,9 @@ namespace AIBridge.Editor.Handlers
             if (string.IsNullOrEmpty(req.path))
                 return CommandResult.Failure("Required: path.");
 
-            var scene = SceneManager.GetActiveScene();
-            var go = SceneLookup.FindByPath(req.path, scene);
+            var go = SceneLookup.FindByPathOrSelection(req.path);
             if (go == null)
-                return CommandResult.Failure($"GameObject not found: '{req.path}'.");
+                return CommandResult.Failure($"GameObject not found: '{req.path}'. (Tip: pass \"@selection\" to target the current Editor selection — works inside Prefab Mode too.)");
 
             Undo.RecordObject(go, "AI Bridge: modify");
             Undo.RecordObject(go.transform, "AI Bridge: modify");
@@ -90,7 +89,7 @@ namespace AIBridge.Editor.Handlers
 
             EditorUtility.SetDirty(go);
             if (!EditorApplication.isPlaying)
-                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.MarkSceneDirty(go.scene);
 
             var result = new Result
             {

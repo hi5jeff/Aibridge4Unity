@@ -41,10 +41,9 @@ namespace AIBridge.Editor.Handlers
             if (string.IsNullOrEmpty(req.path) || string.IsNullOrEmpty(req.component))
                 return CommandResult.Failure("Required: path, component.");
 
-            var scene = SceneManager.GetActiveScene();
-            var go = SceneLookup.FindByPath(req.path, scene);
+            var go = SceneLookup.FindByPathOrSelection(req.path);
             if (go == null)
-                return CommandResult.Failure($"GameObject not found: '{req.path}'.");
+                return CommandResult.Failure($"GameObject not found: '{req.path}'. (Tip: pass \"@selection\" to target the current Editor selection — works inside Prefab Mode too.)");
 
             var comp = SceneLookup.GetComponent(go, req.component, req.componentIndex);
             if (comp == null)
@@ -63,7 +62,7 @@ namespace AIBridge.Editor.Handlers
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(comp);
             if (!EditorApplication.isPlaying)
-                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.MarkSceneDirty(go.scene);
 
             return CommandResult.Success(JsonUtility.ToJson(new Result
             {
